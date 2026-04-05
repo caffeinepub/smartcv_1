@@ -1,52 +1,31 @@
 # SmartCV
 
 ## Current State
-New project — no existing application files.
+- Resume builder uses a split layout: left form panel + right live preview panel, both wrapped in `overflow-hidden` at the outer container. The right preview panel has a `ScrollArea` but the outer `div` has `overflow-hidden` which may prevent scrolling the preview pane independently.
+- Job listings page (`Jobs.tsx`) imports from `mockJobs` in `data/jobs.ts` — 12 hardcoded fake jobs.
+- Color scheme: warm professional with cream/off-white background, dark brown sidebar, amber/gold accents, deep slate primary (`--primary: 0.28 0.04 252`).
+- Hero section (`Landing.tsx`) CTA banner uses a dark brown gradient background with white text.
+- Hero headline reads: "Build Your Dream Career with SmartCV"
 
 ## Requested Changes (Diff)
 
 ### Add
-- **Authentication**: Signup/Login with email and password, password reset, principal-based identity via Caffeine authorization component
-- **Resume Builder**: Multi-step form (Personal Info, Education, Experience, Skills, Projects, Certifications, Summary), drag-and-drop section reordering, real-time preview panel
-- **Cover Letter Builder**: Rich text editor, pre-designed templates, AI-assisted writing suggestions (simulated on free tier, indicated as premium for advanced)
-- **Templates**: 40 templates total (15 Free, 15 Paid, 10 Premium) with unique names, preview thumbnails, ATS-friendly designs — all rendered in-app as styled HTML/CSS layouts
-- **PDF Export**: Client-side PDF generation using html2canvas + jsPDF; supports template selection before export
-- **AI Features**: Grammar/phrasing improvement suggestions (simulated), missing section detection, section strength scores; advanced features gated behind premium
-- **Job Listings**: Search/filter by role, location, skills; bookmark/save jobs; promoted listing badges
-- **Dark/Light mode toggle**: Persisted in localStorage
-- **Landing Page**: Hero, features overview, testimonials/reviews, pricing tiers, CTA sections
-- **About Us Page**: Team/mission/values content
-- **Contact Page**: Form with name, email, message fields
-- **Privacy Policy Page**: Complete policy text
-- **Terms of Service Page**: Professional TOS text
-- **Monetization UI**: Freemium badges, upgrade prompts for paid/premium templates, subscription plan display
-- **Reviews/Testimonials Section**: Star ratings, user feedback cards, realistic content
+- CV Builder: scrollable live preview on the right side — the preview panel must be independently scrollable so users can scroll up and down through the full resume preview while the form panel stays in place.
+- Jobs page: fetch real job listings from a public jobs API (e.g. Remotive.io public API at `https://remotive.com/api/remote-jobs?limit=20`) to display real remote jobs. Show job title, company, location, job type, and a link to apply. Include proper loading and error states.
+- Hero CTA Banner: update to "Build your dream CV with SmartCV" in white text on a solid dark blue background.
 
 ### Modify
-- N/A (new project)
+- `index.css`: Change primary color token from current deep slate (`0.28 0.04 252`) to a more vibrant dark blue — use `0.35 0.18 255` (OKLCH dark blue). Update all references throughout.
+- `ResumeWizard.tsx`: Ensure the right panel (live preview) has proper `overflow-y-auto` on its scroll container so users can scroll the preview vertically. The `ScrollArea` is present but the parent container may be blocking scroll.
+- `Jobs.tsx` + `data/jobs.ts`: Replace mock data with a `useEffect` fetch from `https://remotive.com/api/remote-jobs?limit=20` (public, no auth needed, CORS-friendly). Map API response fields to the existing `JobCard` interface format. Show loading spinner and error message when needed.
+- `Landing.tsx` CTA Banner: Change from dark brown gradient to solid dark blue background. Update headline text to "Build your dream CV with SmartCV".
 
 ### Remove
-- N/A (new project)
+- `data/jobs.ts`: Remove all 12 `mockJobs` entries (or replace with empty array fallback). The live data will come from the API.
 
 ## Implementation Plan
-
-### Backend (Motoko)
-- User profiles: store resume data, cover letter data, saved jobs, bookmarks, plan tier (free/paid/premium)
-- Resume CRUD: create, read, update, delete resumes with full section data
-- Cover letter CRUD: create, read, update, delete cover letters
-- Job listings: store job data with search/filter support, bookmark toggle
-- Template access control: return accessible templates based on user plan
-- Contact form submissions: store messages
-
-### Frontend (React + TypeScript)
-- App shell with routing: Landing, Dashboard, Resume Builder, Cover Letter Builder, Templates, Jobs, About, Contact, Privacy, Terms
-- Authentication flow using Caffeine authorization component
-- Resume builder wizard with step navigation and live preview
-- Cover letter editor with template selector
-- Template gallery with tier badges and lock icons for paid/premium
-- PDF export using jsPDF + html2canvas
-- Job listings page with search, filters, bookmark actions
-- Dark/light theme toggle with Tailwind CSS
-- Pricing/upgrade prompts integrated throughout
-- Responsive layout for mobile/desktop
-- Smooth animations with Tailwind transitions
+1. Update `index.css` — change `--primary` token to dark blue OKLCH value. Update sidebar and badge colors accordingly.
+2. Fix `ResumeWizard.tsx` — ensure right panel preview container is independently scrollable (check outer container overflow and ScrollArea setup).
+3. Update `Jobs.tsx` — replace mock data with fetch from Remotive public API. Add loading/error states. Map API fields to `JobCard` props.
+4. Update `data/jobs.ts` — keep the `Job` interface but replace `mockJobs` with empty array or remove it.
+5. Update `Landing.tsx` CTA Banner — change background to solid dark blue, update headline to "Build your dream CV with SmartCV", white text.

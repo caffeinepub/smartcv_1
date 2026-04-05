@@ -26,19 +26,19 @@ const QUICK_ACTIONS = [
     label: "New Resume",
     icon: Plus,
     to: "/resume/new",
-    colorClass: "text-teal-600 bg-teal-50 dark:bg-teal-900/20",
+    colorClass: "text-amber-700 bg-amber-50 dark:bg-amber-900/20",
   },
   {
     label: "New Cover Letter",
     icon: FileEdit,
     to: "/cover-letter/new",
-    colorClass: "text-blue-600 bg-blue-50 dark:bg-blue-900/20",
+    colorClass: "text-slate-600 bg-slate-50 dark:bg-slate-900/20",
   },
   {
     label: "Browse Templates",
     icon: Sparkles,
     to: "/templates",
-    colorClass: "text-purple-600 bg-purple-50 dark:bg-purple-900/20",
+    colorClass: "text-stone-600 bg-stone-50 dark:bg-stone-900/20",
   },
   {
     label: "Find Jobs",
@@ -84,7 +84,7 @@ export default function Dashboard() {
           >
             <h2 className="text-2xl font-bold text-foreground">
               Welcome Back,{" "}
-              <span style={{ color: "oklch(0.52 0.13 195)" }}>
+              <span className="text-primary">
                 {user?.name?.split(" ")[0] || "there"}!
               </span>
             </h2>
@@ -123,7 +123,7 @@ export default function Dashboard() {
                   <div
                     className="w-12 h-16 rounded-lg flex flex-col overflow-hidden shrink-0 shadow-sm"
                     style={{
-                      background: "linear-gradient(135deg, #0E7C86, #0a5c63)",
+                      background: "linear-gradient(135deg, #1c1812, #3d2b08)",
                     }}
                   >
                     <div className="flex-1 p-1">
@@ -186,17 +186,17 @@ export default function Dashboard() {
               {
                 label: "Resumes",
                 value: resumes.length,
-                colorClass: "text-teal-600",
+                colorClass: "text-amber-700",
               },
               {
                 label: "Cover Letters",
                 value: coverLetters.length,
-                colorClass: "text-blue-600",
+                colorClass: "text-slate-600",
               },
               {
                 label: "Templates Available",
                 value: templateAccessCount,
-                colorClass: "text-purple-600",
+                colorClass: "text-primary",
               },
             ].map((s) => (
               <div
@@ -235,7 +235,11 @@ export default function Dashboard() {
                     key={tier}
                     type="button"
                     onClick={() => setTierFilter(tier)}
-                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${tierFilter === tier ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:text-foreground"}`}
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                      tierFilter === tier
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground hover:text-foreground"
+                    }`}
                     data-ocid={`dashboard.templates.${tier}.tab`}
                   >
                     {tier.charAt(0).toUpperCase() + tier.slice(1)}
@@ -294,8 +298,7 @@ export default function Dashboard() {
 
       <button
         type="button"
-        className="fixed bottom-6 right-6 w-12 h-12 rounded-full text-white shadow-lg flex items-center justify-center hover:scale-105 transition-transform z-50"
-        style={{ backgroundColor: "oklch(0.52 0.13 195)" }}
+        className="fixed bottom-6 right-6 w-12 h-12 rounded-full text-white shadow-lg flex items-center justify-center hover:scale-105 transition-transform z-50 bg-primary"
         data-ocid="dashboard.help.button"
       >
         <HelpCircle size={22} />

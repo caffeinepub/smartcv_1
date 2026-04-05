@@ -150,14 +150,11 @@ export default function Landing() {
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm"
-              style={{ backgroundColor: "oklch(0.52 0.13 195)" }}
-            >
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm bg-primary">
               S
             </div>
             <span className="font-bold text-lg">
-              Smart<span style={{ color: "oklch(0.52 0.13 195)" }}>CV</span>
+              Smart<span className="text-primary">CV</span>
             </span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -226,7 +223,7 @@ export default function Landing() {
           className="absolute inset-0 opacity-30 dark:opacity-10"
           style={{
             background:
-              "radial-gradient(ellipse 80% 50% at 50% -20%, oklch(0.52 0.13 195 / 0.3), transparent)",
+              "radial-gradient(ellipse 80% 50% at 50% -20%, oklch(0.72 0.18 65 / 0.2), transparent)",
           }}
         />
         <div className="max-w-7xl mx-auto relative">
@@ -241,11 +238,8 @@ export default function Landing() {
                 ✨ 40+ ATS-Optimized Templates
               </Badge>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
-                Build Your{" "}
-                <span style={{ color: "oklch(0.52 0.13 195)" }}>
-                  Dream Career
-                </span>{" "}
-                with SmartCV
+                Build Your <span className="text-primary">Dream CV</span> with
+                SmartCV
               </h1>
               <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0">
                 Create professional resumes and cover letters with AI
@@ -293,22 +287,17 @@ export default function Landing() {
                   <div
                     className="rounded-lg p-4 text-white text-xs"
                     style={{
-                      background: "linear-gradient(135deg, #203244, #2B3F52)",
+                      background: "linear-gradient(135deg, #2c2416, #3a2f1e)",
                       minHeight: "200px",
                     }}
                   >
                     <div className="flex items-center gap-2 mb-4">
-                      <div
-                        className="w-6 h-6 rounded flex items-center justify-center text-white font-bold text-xs"
-                        style={{ backgroundColor: "oklch(0.52 0.13 195)" }}
-                      >
+                      <div className="w-6 h-6 rounded flex items-center justify-center text-white font-bold text-xs bg-primary">
                         S
                       </div>
                       <span className="font-bold">
                         Smart
-                        <span style={{ color: "oklch(0.65 0.14 195)" }}>
-                          CV
-                        </span>
+                        <span className="text-amber-400">CV</span>
                       </span>
                     </div>
                     <p className="text-white/70 text-xs mb-2">Dashboard</p>
@@ -321,11 +310,8 @@ export default function Landing() {
                       </p>
                       <div className="w-full bg-white/20 rounded-full h-1.5">
                         <div
-                          className="h-full rounded-full"
-                          style={{
-                            width: "72%",
-                            backgroundColor: "oklch(0.52 0.13 195)",
-                          }}
+                          className="h-full rounded-full bg-amber-400"
+                          style={{ width: "72%" }}
                         />
                       </div>
                       <p className="text-right text-xs text-white/60 mt-0.5">
@@ -399,11 +385,8 @@ export default function Landing() {
                 transition={{ delay: i * 0.1 }}
                 viewport={{ once: true }}
               >
-                <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center mb-4"
-                  style={{ backgroundColor: "oklch(0.52 0.13 195 / 0.1)" }}
-                >
-                  <f.icon size={20} style={{ color: "oklch(0.52 0.13 195)" }} />
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-4 bg-primary/10">
+                  <f.icon size={20} className="text-primary" />
                 </div>
                 <h3 className="font-semibold text-foreground mb-2">
                   {f.title}
@@ -462,7 +445,11 @@ export default function Landing() {
               <button
                 type="button"
                 onClick={() => setBilling("monthly")}
-                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${billing === "monthly" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground"}`}
+                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+                  billing === "monthly"
+                    ? "bg-background shadow-sm text-foreground"
+                    : "text-muted-foreground"
+                }`}
                 data-ocid="pricing.monthly.toggle"
               >
                 Monthly
@@ -470,7 +457,11 @@ export default function Landing() {
               <button
                 type="button"
                 onClick={() => setBilling("annual")}
-                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${billing === "annual" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground"}`}
+                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+                  billing === "annual"
+                    ? "bg-background shadow-sm text-foreground"
+                    : "text-muted-foreground"
+                }`}
                 data-ocid="pricing.annual.toggle"
               >
                 Annual <span className="text-xs text-green-600 ml-1">-25%</span>
@@ -481,10 +472,14 @@ export default function Landing() {
             {PRICING.map((tier) => (
               <div
                 key={tier.name}
-                className={`p-6 rounded-2xl border ${tier.highlight ? "border-primary shadow-lg shadow-primary/10 relative" : "border-border bg-card"}`}
+                className={`p-6 rounded-2xl border ${
+                  tier.highlight
+                    ? "border-primary shadow-lg shadow-primary/10 relative"
+                    : "border-border bg-card"
+                }`}
                 style={
                   tier.highlight
-                    ? { background: "oklch(0.52 0.13 195 / 0.04)" }
+                    ? { background: "oklch(0.28 0.04 252 / 0.04)" }
                     : {}
                 }
               >
@@ -559,10 +554,7 @@ export default function Landing() {
                   "{t.content}"
                 </p>
                 <div className="flex items-center gap-3">
-                  <div
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold"
-                    style={{ backgroundColor: "oklch(0.52 0.13 195)" }}
-                  >
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold bg-primary">
                     {t.avatar}
                   </div>
                   <div>
@@ -584,10 +576,10 @@ export default function Landing() {
       <section className="py-16 px-6">
         <div
           className="max-w-4xl mx-auto rounded-2xl p-10 text-center text-white"
-          style={{ background: "linear-gradient(135deg, #203244, #0E7C86)" }}
+          style={{ background: "linear-gradient(135deg, #0f1b40, #1a3a8f)" }}
         >
           <h2 className="text-3xl font-bold mb-4">
-            Start Building Your Resume Today
+            Build your dream CV with SmartCV
           </h2>
           <p className="text-white/80 mb-8">
             Join over 50,000 job seekers who've landed their dream jobs using
@@ -595,7 +587,7 @@ export default function Landing() {
           </p>
           <Button
             size="lg"
-            className="bg-white text-primary hover:bg-white/90"
+            className="bg-white text-blue-900 hover:bg-blue-50 font-semibold"
             onClick={() => navigate(isAuthenticated ? "/dashboard" : "/signup")}
             data-ocid="landing.cta_banner.primary_button"
           >
@@ -610,14 +602,11 @@ export default function Landing() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 mb-3">
-                <div
-                  className="w-7 h-7 rounded flex items-center justify-center text-white font-bold text-sm"
-                  style={{ backgroundColor: "oklch(0.52 0.13 195)" }}
-                >
+                <div className="w-7 h-7 rounded flex items-center justify-center text-white font-bold text-sm bg-primary">
                   S
                 </div>
                 <span className="font-bold">
-                  Smart<span style={{ color: "oklch(0.52 0.13 195)" }}>CV</span>
+                  Smart<span className="text-primary">CV</span>
                 </span>
               </div>
               <p className="text-xs text-muted-foreground mb-4">

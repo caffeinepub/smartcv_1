@@ -29,7 +29,7 @@ export default function ResumePreview({
       {/* Header */}
       <div
         className="text-center border-b-2 pb-4 mb-4"
-        style={{ borderColor: "#0E7C86" }}
+        style={{ borderColor: "#b45309" }}
       >
         <h1
           style={{
@@ -72,7 +72,7 @@ export default function ResumePreview({
                   <div className="flex justify-between items-baseline">
                     <div>
                       <strong style={{ fontSize: "12px" }}>{exp.title}</strong>{" "}
-                      at <span style={{ color: "#0E7C86" }}>{exp.company}</span>
+                      at <span style={{ color: "#92400e" }}>{exp.company}</span>
                       {exp.location && ` · ${exp.location}`}
                     </div>
                     <span style={{ color: "#6b7280", fontSize: "10px" }}>
@@ -126,12 +126,12 @@ export default function ResumePreview({
                   <span
                     key={skill.id}
                     style={{
-                      background: "#f0fdfa",
-                      border: "1px solid #99f6e4",
+                      background: "#fef3c7",
+                      border: "1px solid #fcd34d",
                       borderRadius: "4px",
                       padding: "2px 8px",
                       fontSize: "10px",
-                      color: "#0f766e",
+                      color: "#92400e",
                     }}
                   >
                     {skill.name} · {skill.level}
@@ -149,7 +149,7 @@ export default function ResumePreview({
                   <div className="flex items-baseline gap-2">
                     <strong>{proj.name}</strong>
                     {proj.url && (
-                      <span style={{ color: "#0E7C86", fontSize: "10px" }}>
+                      <span style={{ color: "#374151", fontSize: "10px" }}>
                         {proj.url}
                       </span>
                     )}
@@ -209,7 +209,7 @@ function Section({
           fontWeight: "700",
           textTransform: "uppercase",
           letterSpacing: "0.08em",
-          color: "#0E7C86",
+          color: "#374151",
           borderBottom: "1px solid #e5e7eb",
           paddingBottom: "3px",
           marginBottom: "8px",

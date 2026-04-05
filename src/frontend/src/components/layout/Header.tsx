@@ -42,10 +42,7 @@ export default function Header({ title = "Dashboard" }: HeaderProps) {
                 className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-muted transition-colors"
                 data-ocid="header.user.dropdown_menu"
               >
-                <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white"
-                  style={{ backgroundColor: "oklch(0.52 0.13 195)" }}
-                >
+                <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white bg-primary">
                   {user.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="hidden md:block text-left">

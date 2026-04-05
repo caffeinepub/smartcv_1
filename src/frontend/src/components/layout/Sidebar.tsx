@@ -73,22 +73,14 @@ export default function Sidebar() {
   };
 
   return (
-    <aside
-      className="fixed left-0 top-0 h-screen w-[260px] z-50 flex flex-col"
-      style={{
-        background: "linear-gradient(180deg, #203244 0%, #2B3F52 100%)",
-      }}
-    >
+    <aside className="fixed left-0 top-0 h-screen w-[260px] z-50 flex flex-col sidebar-gradient">
       {/* Logo */}
       <div className="px-5 py-5 flex items-center gap-3 border-b border-white/10">
-        <div
-          className="w-9 h-9 rounded-lg flex items-center justify-center text-white font-bold text-lg"
-          style={{ backgroundColor: "oklch(0.52 0.13 195)" }}
-        >
+        <div className="w-9 h-9 rounded-lg flex items-center justify-center text-white font-bold text-lg bg-primary">
           S
         </div>
         <span className="text-white font-bold text-xl">
-          Smart<span style={{ color: "oklch(0.65 0.14 195)" }}>CV</span>
+          Smart<span className="text-amber-400">CV</span>
         </span>
       </div>
 
@@ -143,10 +135,7 @@ export default function Sidebar() {
                         <FileEdit size={13} />
                         {child.label}
                         {isActive(child.href) && (
-                          <span
-                            className="ml-auto text-xs px-1.5 py-0.5 rounded-full text-white"
-                            style={{ backgroundColor: "oklch(0.52 0.13 195)" }}
-                          >
+                          <span className="ml-auto text-xs px-1.5 py-0.5 rounded-full text-white bg-amber-500/80">
                             Active
                           </span>
                         )}
@@ -175,10 +164,7 @@ export default function Sidebar() {
                 <span>{item.label}</span>
               </div>
               {isItemActive && (
-                <span
-                  className="text-xs px-1.5 py-0.5 rounded-full text-white"
-                  style={{ backgroundColor: "oklch(0.52 0.13 195)" }}
-                >
+                <span className="text-xs px-1.5 py-0.5 rounded-full text-white bg-amber-500/80">
                   Active
                 </span>
               )}
@@ -201,10 +187,7 @@ export default function Sidebar() {
         {user && (
           <div className="px-3 py-2 rounded-lg bg-white/8">
             <div className="flex items-center gap-3">
-              <div
-                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white"
-                style={{ backgroundColor: "oklch(0.52 0.13 195)" }}
-              >
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white bg-primary">
                 {user.name.charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">

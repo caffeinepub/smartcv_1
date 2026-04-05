@@ -20,7 +20,7 @@ import PdfExportButton from "../ui/PdfExportButton";
 
 const CL_TEMPLATES = [
   { id: "cl-1", name: "Classic", bg: "#ffffff", accent: "#1a365d" },
-  { id: "cl-2", name: "Modern", bg: "#f8fafc", accent: "#0E7C86" },
+  { id: "cl-2", name: "Modern", bg: "#f8fafc", accent: "#374151" },
   { id: "cl-3", name: "Bold", bg: "#f0fdf4", accent: "#15803d" },
   { id: "cl-4", name: "Elegant", bg: "#faf5ff", accent: "#7c3aed" },
   { id: "cl-5", name: "Executive", bg: "#fff7ed", accent: "#c2410c" },
@@ -49,14 +49,6 @@ const AI_SUGGESTIONS = [
   },
 ];
 
-const TOOLBAR_ICONS = [
-  { Icon: Bold, label: "Bold" },
-  { Icon: Italic, label: "Italic" },
-  { Icon: AlignLeft, label: "Align Left" },
-  { Icon: AlignCenter, label: "Align Center" },
-  { Icon: Type, label: "Font" },
-];
-
 interface CoverLetterEditorProps {
   coverId?: string;
 }
@@ -65,6 +57,9 @@ export default function CoverLetterEditor({ coverId }: CoverLetterEditorProps) {
   const { coverLetter, updateCoverLetter } = useCoverLetter(coverId);
   const [showAi, setShowAi] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [bold, setBold] = useState(false);
+  const [italic, setItalic] = useState(false);
+  const [align, setAlign] = useState<"left" | "center">("left");
 
   const handleSave = async () => {
     setSaving(true);
@@ -123,16 +118,70 @@ export default function CoverLetterEditor({ coverId }: CoverLetterEditorProps) {
             <span className="text-xs font-medium text-muted-foreground mr-2">
               Format:
             </span>
-            {TOOLBAR_ICONS.map(({ Icon, label }) => (
-              <button
-                key={label}
-                type="button"
-                aria-label={label}
-                className="p-1.5 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Icon size={14} />
-              </button>
-            ))}
+            <button
+              type="button"
+              aria-label="Bold"
+              onClick={() => setBold(!bold)}
+              className={cn(
+                "p-1.5 rounded transition-colors",
+                bold
+                  ? "bg-primary/15 text-primary"
+                  : "hover:bg-muted text-muted-foreground hover:text-foreground",
+              )}
+              data-ocid="cover.format.bold.toggle"
+            >
+              <Bold size={14} />
+            </button>
+            <button
+              type="button"
+              aria-label="Italic"
+              onClick={() => setItalic(!italic)}
+              className={cn(
+                "p-1.5 rounded transition-colors",
+                italic
+                  ? "bg-primary/15 text-primary"
+                  : "hover:bg-muted text-muted-foreground hover:text-foreground",
+              )}
+              data-ocid="cover.format.italic.toggle"
+            >
+              <Italic size={14} />
+            </button>
+            <button
+              type="button"
+              aria-label="Align Left"
+              onClick={() => setAlign("left")}
+              className={cn(
+                "p-1.5 rounded transition-colors",
+                align === "left"
+                  ? "bg-primary/15 text-primary"
+                  : "hover:bg-muted text-muted-foreground hover:text-foreground",
+              )}
+              data-ocid="cover.format.align_left.toggle"
+            >
+              <AlignLeft size={14} />
+            </button>
+            <button
+              type="button"
+              aria-label="Align Center"
+              onClick={() => setAlign("center")}
+              className={cn(
+                "p-1.5 rounded transition-colors",
+                align === "center"
+                  ? "bg-primary/15 text-primary"
+                  : "hover:bg-muted text-muted-foreground hover:text-foreground",
+              )}
+              data-ocid="cover.format.align_center.toggle"
+            >
+              <AlignCenter size={14} />
+            </button>
+            <button
+              type="button"
+              aria-label="Font"
+              className="p-1.5 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+              data-ocid="cover.format.font.button"
+            >
+              <Type size={14} />
+            </button>
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -248,7 +297,12 @@ export default function CoverLetterEditor({ coverId }: CoverLetterEditorProps) {
                       "Dear Hiring Manager,\n\nStart writing your cover letter here..."
                     }
                     className="min-h-[500px] border-0 resize-none text-sm leading-relaxed focus-visible:ring-0 bg-transparent p-0"
-                    style={{ fontFamily: "Georgia, serif" }}
+                    style={{
+                      fontFamily: "Georgia, serif",
+                      fontWeight: bold ? "700" : "400",
+                      fontStyle: italic ? "italic" : "normal",
+                      textAlign: align,
+                    }}
                     data-ocid="cover.body.textarea"
                   />
                 </div>

@@ -19,22 +19,25 @@ export default function PdfExportButton({
   const exportPdf = async () => {
     setLoading(true);
     try {
-      const [html2canvas, jsPDF] = await Promise.all([
+      const [html2canvasModule, jsPDFModule] = await Promise.all([
         import("html2canvas"),
         import("jspdf"),
       ]);
+      const html2canvas = html2canvasModule.default;
+      const { jsPDF } = jsPDFModule;
+
       const element = document.getElementById(targetId);
       if (!element) {
-        toast.error("Could not find resume preview element");
+        toast.error("Could not find preview element");
         return;
       }
-      const canvas = await html2canvas.default(element, {
+      const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
         backgroundColor: "#ffffff",
       });
       const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF.jsPDF({
+      const pdf = new jsPDF({
         orientation: "portrait",
         unit: "pt",
         format: "a4",

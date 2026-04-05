@@ -23,6 +23,12 @@ export default function JobCard({ job, index }: JobCardProps) {
     );
   };
 
+  const handleApply = () => {
+    if (job.applyUrl) {
+      window.open(job.applyUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
   const typeColors: Record<string, string> = {
     "Full-time":
       "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
@@ -97,7 +103,7 @@ export default function JobCard({ job, index }: JobCardProps) {
         >
           {job.type}
         </span>
-        {job.skills.map((skill) => (
+        {job.skills.slice(0, 4).map((skill) => (
           <span
             key={skill}
             className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground"
@@ -108,7 +114,8 @@ export default function JobCard({ job, index }: JobCardProps) {
       </div>
 
       <p className="text-xs text-muted-foreground mb-3 line-clamp-2">
-        {job.description}
+        {job.description.replace(/<[^>]*>/g, "").substring(0, 150)}
+        {job.description.replace(/<[^>]*>/g, "").length > 150 ? "..." : ""}
       </p>
 
       <div className="flex items-center justify-between">
@@ -116,6 +123,8 @@ export default function JobCard({ job, index }: JobCardProps) {
         <Button
           size="sm"
           className="h-7 text-xs"
+          onClick={handleApply}
+          disabled={!job.applyUrl}
           data-ocid={`jobs.apply.button.${index}`}
         >
           <ExternalLink size={12} className="mr-1" /> Apply

@@ -2,8 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { Check, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import {
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+} from "lucide-react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useResume } from "../../hooks/useResume";
@@ -41,6 +47,17 @@ export default function ResumeWizard({ resumeId }: ResumeWizardProps) {
     updatePersonalInfo,
   } = useResume(resumeId);
   const [saving, setSaving] = useState(false);
+  const previewScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollPreview = (direction: "up" | "down") => {
+    const el = previewScrollRef.current;
+    if (el) {
+      el.scrollBy({
+        top: direction === "down" ? 200 : -200,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -201,21 +218,44 @@ export default function ResumeWizard({ resumeId }: ResumeWizardProps) {
       </div>
 
       {/* Right panel - Live Preview */}
-      <div className="flex-1 flex flex-col bg-muted/30 overflow-hidden">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-background">
+      <div className="flex-1 flex flex-col bg-muted/30 min-w-0">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-background shrink-0">
           <h3 className="text-sm font-medium text-foreground">Live Preview</h3>
-          <PdfExportButton
-            targetId="resume-preview"
-            filename={`${resume.personalInfo.firstName || "resume"}-resume.pdf`}
-          />
+          <div className="flex items-center gap-1">
+            {/* Scroll up/down buttons for preview navigation */}
+            <button
+              type="button"
+              onClick={() => scrollPreview("up")}
+              className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              title="Scroll preview up"
+              data-ocid="resume.preview.scroll_up_button"
+            >
+              <ChevronUp size={16} />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollPreview("down")}
+              className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              title="Scroll preview down"
+              data-ocid="resume.preview.scroll_down_button"
+            >
+              <ChevronDown size={16} />
+            </button>
+            <div className="w-px h-4 bg-border mx-1" />
+            <PdfExportButton
+              targetId="resume-preview"
+              filename={`${resume.personalInfo.firstName || "resume"}-resume.pdf`}
+            />
+          </div>
         </div>
-        <ScrollArea className="flex-1">
+        {/* Scrollable preview container — uses a plain div with overflow-y-auto so useRef scrollBy works */}
+        <div ref={previewScrollRef} className="flex-1 min-h-0 overflow-y-auto">
           <div className="p-6 flex justify-center">
             <div className="w-full max-w-[794px] shadow-xl">
               <ResumePreview resume={resume} />
             </div>
           </div>
-        </ScrollArea>
+        </div>
       </div>
     </div>
   );
