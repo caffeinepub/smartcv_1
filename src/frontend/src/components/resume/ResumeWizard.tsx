@@ -47,8 +47,28 @@ export default function ResumeWizard({ resumeId }: ResumeWizardProps) {
     updatePersonalInfo,
   } = useResume(resumeId);
   const [saving, setSaving] = useState(false);
+
+  // Ref for the editor scroll area viewport
+  const editorScrollRef = useRef<HTMLDivElement>(null);
+  // Ref for the preview scroll container
   const previewScrollRef = useRef<HTMLDivElement>(null);
 
+  // Scroll the editor (left) panel up or down
+  const scrollEditor = (direction: "up" | "down") => {
+    // ScrollArea renders a [data-radix-scroll-area-viewport] child — target that
+    const viewport = editorScrollRef.current?.querySelector(
+      "[data-radix-scroll-area-viewport]",
+    ) as HTMLElement | null;
+    const el = viewport ?? editorScrollRef.current;
+    if (el) {
+      el.scrollBy({
+        top: direction === "down" ? 220 : -220,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // Scroll the live preview (right) panel up or down
   const scrollPreview = (direction: "up" | "down") => {
     const el = previewScrollRef.current;
     if (el) {
@@ -132,10 +152,10 @@ export default function ResumeWizard({ resumeId }: ResumeWizardProps) {
 
   return (
     <div className="flex h-[calc(100vh-56px)] overflow-hidden">
-      {/* Left panel - Form */}
-      <div className="w-[480px] flex flex-col border-r border-border bg-background shrink-0">
-        {/* Steps nav */}
-        <div className="px-6 pt-4 pb-3 border-b border-border">
+      {/* ===== LEFT PANEL — Editor ===== */}
+      <div className="w-[480px] flex flex-col border-r border-border bg-background shrink-0 overflow-hidden h-full">
+        {/* Step navigation tabs — fixed, never scrolls */}
+        <div className="shrink-0 px-6 pt-4 pb-3 border-b border-border">
           <div className="flex items-center gap-1 flex-wrap">
             {STEPS.map((step, i) => (
               <button
@@ -172,13 +192,42 @@ export default function ResumeWizard({ resumeId }: ResumeWizardProps) {
           </div>
         </div>
 
-        {/* Step content */}
-        <ScrollArea className="flex-1">
-          <div className="p-6">{renderStep()}</div>
-        </ScrollArea>
+        {/* Editor scroll controls — always visible above the form */}
+        <div className="shrink-0 flex items-center justify-between px-4 py-2 border-b border-border bg-muted/20">
+          <span className="text-xs text-muted-foreground font-medium">
+            {STEPS[currentStep].label}
+          </span>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => scrollEditor("up")}
+              className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              title="Scroll editor up"
+              data-ocid="resume.editor.scroll_up_button"
+            >
+              <ChevronUp size={16} />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollEditor("down")}
+              className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              title="Scroll editor down"
+              data-ocid="resume.editor.scroll_down_button"
+            >
+              <ChevronDown size={16} />
+            </button>
+          </div>
+        </div>
 
-        {/* Navigation */}
-        <div className="p-4 border-t border-border flex items-center justify-between gap-3">
+        {/* Scrollable form content — flex-1 + min-h-0 so it fills remaining space */}
+        <div ref={editorScrollRef} className="flex-1 min-h-0">
+          <ScrollArea className="h-full">
+            <div className="p-6">{renderStep()}</div>
+          </ScrollArea>
+        </div>
+
+        {/* Navigation buttons — shrink-0 keeps them always pinned at bottom */}
+        <div className="shrink-0 p-4 border-t border-border flex items-center justify-between gap-3 bg-background">
           <Button
             variant="outline"
             onClick={prev}
@@ -217,12 +266,11 @@ export default function ResumeWizard({ resumeId }: ResumeWizardProps) {
         </div>
       </div>
 
-      {/* Right panel - Live Preview */}
+      {/* ===== RIGHT PANEL — Live Preview ===== */}
       <div className="flex-1 flex flex-col bg-muted/30 min-w-0">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-background shrink-0">
           <h3 className="text-sm font-medium text-foreground">Live Preview</h3>
           <div className="flex items-center gap-1">
-            {/* Scroll up/down buttons for preview navigation */}
             <button
               type="button"
               onClick={() => scrollPreview("up")}
@@ -248,7 +296,7 @@ export default function ResumeWizard({ resumeId }: ResumeWizardProps) {
             />
           </div>
         </div>
-        {/* Scrollable preview container — uses a plain div with overflow-y-auto so useRef scrollBy works */}
+        {/* Scrollable preview — plain div so useRef scrollBy works */}
         <div ref={previewScrollRef} className="flex-1 min-h-0 overflow-y-auto">
           <div className="p-6 flex justify-center">
             <div className="w-full max-w-[794px] shadow-xl">

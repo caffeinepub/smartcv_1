@@ -146,7 +146,7 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Navbar */}
+      {/* Navbar — sticky, stays on top of everything including the hero */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
@@ -217,15 +217,34 @@ export default function Landing() {
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="relative overflow-hidden py-20 px-6">
+      {/* ───────────────── HERO ─────────────────
+          Deep vibrant blue gradient background, all text white.
+          The 3-D depth comes from the layered radial glow overlay.
+      ────────────────────────────────────────── */}
+      <section
+        className="relative overflow-hidden py-20 px-6"
+        style={{
+          background:
+            "linear-gradient(135deg, #0a1628 0%, #1a3a8f 40%, #0d5bb5 70%, #0a2d6e 100%)",
+        }}
+      >
+        {/* Glow overlay for 3-D / depth effect */}
         <div
-          className="absolute inset-0 opacity-30 dark:opacity-10"
+          className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 80% 50% at 50% -20%, oklch(0.72 0.18 65 / 0.2), transparent)",
+              "radial-gradient(ellipse 70% 60% at 60% 40%, rgba(99,179,237,0.18) 0%, rgba(26,58,143,0.10) 50%, transparent 100%)",
           }}
         />
+        {/* Subtle bottom fade to merge into the next section */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to bottom, transparent, rgba(10,22,40,0.35))",
+          }}
+        />
+
         <div className="max-w-7xl mx-auto relative">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <motion.div
@@ -234,25 +253,34 @@ export default function Landing() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <Badge className="mb-4 badge-free" variant="outline">
+              {/* Badge — white border variant so it pops on blue */}
+              <Badge
+                className="mb-4 border-white/40 text-white bg-white/10 hover:bg-white/20"
+                variant="outline"
+              >
                 ✨ 40+ ATS-Optimized Templates
               </Badge>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
-                Build Your <span className="text-primary">Dream CV</span> with
+
+              {/* Main headline — white text, accent word in bright cyan */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                Build Your <span className="text-cyan-300">Dream CV</span> with
                 SmartCV
               </h1>
-              <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0">
+
+              {/* Subtext — soft white */}
+              <p className="text-lg text-blue-100 mb-8 max-w-xl mx-auto lg:mx-0">
                 Create professional resumes and cover letters with AI
                 assistance, 40+ premium templates, and real-time PDF export. Get
                 hired faster.
               </p>
+
               <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                 <Button
                   size="lg"
                   onClick={() =>
                     navigate(isAuthenticated ? "/dashboard" : "/signup")
                   }
-                  className="gap-2"
+                  className="gap-2 bg-white text-blue-900 hover:bg-blue-50 font-semibold shadow-lg shadow-black/20"
                   data-ocid="hero.cta.primary_button"
                 >
                   Get Started Free <ArrowRight size={18} />
@@ -261,12 +289,15 @@ export default function Landing() {
                   size="lg"
                   variant="outline"
                   onClick={() => navigate("/templates")}
+                  className="border-white/50 text-white hover:bg-white/10 hover:border-white"
                   data-ocid="hero.cta.secondary_button"
                 >
                   View Templates
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground mt-4">
+
+              {/* Fine print — muted white */}
+              <p className="text-xs text-white/60 mt-4">
                 No credit card required · Free forever plan
               </p>
             </motion.div>
@@ -277,27 +308,28 @@ export default function Landing() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="rounded-2xl overflow-hidden shadow-2xl border border-border">
-                <div className="h-8 bg-muted flex items-center px-3 gap-1.5">
+              <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/20">
+                <div className="h-8 bg-blue-950/70 flex items-center px-3 gap-1.5">
                   <span className="w-3 h-3 rounded-full bg-red-400" />
                   <span className="w-3 h-3 rounded-full bg-yellow-400" />
                   <span className="w-3 h-3 rounded-full bg-green-400" />
                 </div>
-                <div className="bg-background p-4">
+                <div className="bg-blue-950/60 p-4">
                   <div
                     className="rounded-lg p-4 text-white text-xs"
                     style={{
-                      background: "linear-gradient(135deg, #2c2416, #3a2f1e)",
+                      background:
+                        "linear-gradient(135deg, #0a1628 0%, #1a3a8f 100%)",
                       minHeight: "200px",
                     }}
                   >
                     <div className="flex items-center gap-2 mb-4">
-                      <div className="w-6 h-6 rounded flex items-center justify-center text-white font-bold text-xs bg-primary">
+                      <div className="w-6 h-6 rounded flex items-center justify-center text-blue-900 font-bold text-xs bg-cyan-300">
                         S
                       </div>
                       <span className="font-bold">
                         Smart
-                        <span className="text-amber-400">CV</span>
+                        <span className="text-cyan-300">CV</span>
                       </span>
                     </div>
                     <p className="text-white/70 text-xs mb-2">Dashboard</p>
@@ -310,7 +342,7 @@ export default function Landing() {
                       </p>
                       <div className="w-full bg-white/20 rounded-full h-1.5">
                         <div
-                          className="h-full rounded-full bg-amber-400"
+                          className="h-full rounded-full bg-cyan-300"
                           style={{ width: "72%" }}
                         />
                       </div>
